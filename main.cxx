@@ -4,9 +4,7 @@
 
 int main()
 {
-  for (int p = 0; p < 4; ++p)
+  for (Direction d = Direction::begin(); d != Direction::end(); ++d)
   {
-    Piece piece(p);
-    std::cout << piece << std::endl;
   }
 }
