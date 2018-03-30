@@ -21,3 +21,30 @@ std::ostream& operator<<(std::ostream& os, PositionSet const& position_set)
     }
   return os;
 }
+
+void PositionSet::shift_towards(Direction direction)
+{
+  switch (direction.get_index())
+  {
+    case 0:
+      m_units <<= 1;
+      break;
+    case 1:
+      m_units >>= 1;
+      break;
+    case 2:
+      m_units <<= 4;
+      break;
+    case 3:
+      m_units >>= 4;
+      break;
+    case 4:
+      m_units <<= 16;
+      break;
+    case 5:
+      m_units >>= 16;
+      break;
+  }
+}
+
+std::array<PositionSet, 6> const wall = { PositionSet{0}, PositionSet{0}, PositionSet{0}, PositionSet{0}, PositionSet{0}, PositionSet{0} };

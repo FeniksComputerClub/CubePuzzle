@@ -1,7 +1,6 @@
 #pragma once 
 
 #include <iosfwd>
-#include "PositionSet.h"
 
 struct DirectionPOD
 {
@@ -29,9 +28,9 @@ class Direction : protected DirectionPOD
 
     void operator++() { ++direction; }
 
+    int get_index() const { return direction; }
+
     friend std::ostream& operator<<(std::ostream& os, Direction const& direction);
 };
-
-extern PositionSet const wall[6];
 
 //direction nd = (direction)((d + 1) % 6);
