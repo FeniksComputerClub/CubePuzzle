@@ -1,3 +1,8 @@
+#pragma once 
+
+#include <iosfwd>
+#include "PositionSet.h"
+
 struct DirectionPOD
 {
   int direction;
@@ -12,7 +17,7 @@ static constexpr DirectionPOD z_positive{4};
 static constexpr DirectionPOD z_negative{5};
 static constexpr DirectionPOD direction_end{6};
 
-class Direction : public DirectionPOD
+class Direction : protected DirectionPOD
 {
   public:
     Direction(DirectionPOD direction) : DirectionPOD(direction) { }
@@ -23,6 +28,8 @@ class Direction : public DirectionPOD
     bool operator!=(DirectionPOD d) const { return direction != d.direction; }
 
     void operator++() { ++direction; }
+
+    friend std::ostream& operator<<(std::ostream& os, Direction const& direction);
 };
 
 extern PositionSet const wall[6];
