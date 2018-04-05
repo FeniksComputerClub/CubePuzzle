@@ -11,11 +11,12 @@ class PositionSet
   uint64_t m_units;
 
  public:
-  PositionSet(uint64_t units) : m_units(units) { }
+  explicit PositionSet(uint64_t units) : m_units(units) { }
 
   virtual char const* name() const { return "PositionSet"; }
 
   void shift_towards(Direction direction);
+  operator bool() const { return m_units; }
 
   PositionSet& operator|=(PositionSet position_set) { m_units |= position_set.m_units; return *this; }
   friend PositionSet operator|(PositionSet position_set1, PositionSet position_set2)

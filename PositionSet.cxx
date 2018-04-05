@@ -47,4 +47,19 @@ void PositionSet::shift_towards(Direction direction)
   }
 }
 
-std::array<PositionSet, 6> const wall = { PositionSet{0}, PositionSet{0}, PositionSet{0}, PositionSet{0}, PositionSet{0}, PositionSet{0} };
+PositionSet create_wall(Direction direction)
+{
+  PositionSet result((uint64_t)-1);
+  for (PositionSet next = result; next; next.shift_towards(direction))
+    result = next;
+  return result;
+}
+
+std::array<PositionSet, 6> const wall = {
+  create_wall(x_positive),
+  create_wall(x_negative),
+  create_wall(y_positive),
+  create_wall(y_negative),
+  create_wall(z_positive),
+  create_wall(z_negative)
+};

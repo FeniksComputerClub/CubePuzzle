@@ -6,6 +6,6 @@ int main()
 {
   for (Direction d = Direction::begin(); d != Direction::end(); ++d)
   {
-    int i = d.get_index();
+    std::cout << d << ": " << wall[d.get_index()] << std::endl;
   }
 }
