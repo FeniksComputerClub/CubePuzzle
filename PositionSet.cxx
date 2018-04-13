@@ -26,22 +26,22 @@ void PositionSet::shift_towards(Direction direction)
 {
   switch (direction.get_index())
   {
-    case 0:
+    case x_positive_int:
       m_units <<= 1;
       break;
-    case 1:
+    case x_negative_int:
       m_units >>= 1;
       break;
-    case 2:
+    case y_positive_int:
       m_units <<= 4;
       break;
-    case 3:
+    case y_negative_int:
       m_units >>= 4;
       break;
-    case 4:
+    case z_positive_int:
       m_units <<= 16;
       break;
-    case 5:
+    case z_negative_int:
       m_units >>= 16;
       break;
   }
@@ -49,10 +49,21 @@ void PositionSet::shift_towards(Direction direction)
 
 PositionSet create_wall(Direction direction)
 {
-  PositionSet result((uint64_t)-1);
-  for (PositionSet next = result; next; next.shift_towards(direction))
-    result = next;
-  return result;
+  switch (direction.get_index())
+  {
+    case x_positive_int:
+      return PositionSet{(uint64_t)0x1111111111111111 << 3};
+    case x_negative_int:
+      return PositionSet{(uint64_t)0x1111111111111111};
+    case y_positive_int:
+      return PositionSet{(uint64_t)0xf000f000f000f << 3 * 4};
+    case y_negative_int:
+      return PositionSet{(uint64_t)0xf000f000f000f};
+    case z_positive_int:
+      return PositionSet{(uint64_t)0xffff << 3 * 16};
+    case z_negative_int:
+      return PositionSet{(uint64_t)0xffff};
+  }
 }
 
 std::array<PositionSet, 6> const wall = {
