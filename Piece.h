@@ -32,14 +32,15 @@ class Piece : public PositionSet
 class Pieces
 {
  private:
-  static std::array<Piece, 13> const s_pieces;
+  using s_pieces_type = std::array<Piece, 13>;
+  static s_pieces_type const s_pieces;
   static Pieces* s_pieces_instance;
 
  public:
   ~Pieces() { delete s_pieces_instance; }
 
-  auto begin() const { return s_pieces.begin(); } 
-  auto end() const { return s_pieces.end(); }
+  s_pieces_type::const_iterator begin() const { return s_pieces.begin(); }
+  s_pieces_type::const_iterator end() const { return s_pieces.end(); }
   Piece get(int nr) const { return s_pieces[nr]; }
   static Pieces& instance();
 };

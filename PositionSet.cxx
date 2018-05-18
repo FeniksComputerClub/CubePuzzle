@@ -13,7 +13,7 @@ std::ostream& operator<<(std::ostream& os, PositionSet const& position_set)
       {
 	uint64_t bit = (uint64_t)1 << (x + y * 4 + z * 16);
 	if ((position_set.m_units & bit))
-	  os << " ̶/";
+	  os << " /\314\266";
 	else
 	  os << " .";
       }
