@@ -19,21 +19,12 @@ class PositionSet
   operator bool() const { return m_units; }
 
   PositionSet& operator|=(PositionSet position_set) { m_units |= position_set.m_units; return *this; }
+  PositionSet& operator&=(PositionSet position_set) { m_units &= position_set.m_units; return *this; }
   friend PositionSet operator|(PositionSet position_set1, PositionSet position_set2)
     { PositionSet result{position_set1.m_units | position_set2.m_units}; return result; }
 
-  void swap_units(uint64_t mask, int distance)
-  {
-    uint64_t tmp = m_units & mask;
-    tmp <<= distance;
-    mask <<= distance;
-    uint64_t diff = tmp ^ (m_units & mask);
-    m_units ^= diff;
-    diff >>= distance;
-    m_units ^= diff;
-  }
-
-
+  void swap_units(PositionSet mask, int distance);
+  void mirror_in(Direction direction);
 
  public:
   friend std::ostream& operator<<(std::ostream& os, PositionSet const& position_set);

@@ -28,19 +28,22 @@ static constexpr DirectionPOD direction_end{z_negative_int + 1};
 
 class Direction : protected DirectionPOD
 {
-  public:
-    Direction(DirectionPOD direction) : DirectionPOD(direction) { }
+ public:
+  Direction(DirectionPOD direction) : DirectionPOD(direction) { }
 
-    static DirectionPOD begin() { return direction_begin; }
-    static DirectionPOD end() { return direction_end; }
+  static DirectionPOD begin() { return direction_begin; }
+  static DirectionPOD end() { return direction_end; }
 
-    bool operator!=(DirectionPOD d) const { return direction != d.direction; }
+  bool operator!=(DirectionPOD d) const { return direction != d.direction; }
 
-    void operator++() { ++direction; }
+  void operator++() { ++direction; }
 
-    int get_index() const { return direction; }
+  int get_index() const { return direction; }
+  int step() const { return (1 << ((direction >> 1) << 1)) * (1 - 2 * (direction % 2)); }
 
-    friend std::ostream& operator<<(std::ostream& os, Direction const& direction);
+  Direction operator~() const { return DirectionPOD{ direction + 1 - 2 * (direction % 2) }; } 
+
+  friend std::ostream& operator<<(std::ostream& os, Direction const& direction);
 };
 
 //direction nd = (direction)((d + 1) % 6);

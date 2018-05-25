@@ -7,7 +7,7 @@ int main()
   Piece piece = Pieces::instance().get(4);
   std::cout << piece << std::endl;
 
-#if 0
+#if 1
   //prints out the walls
   for (Direction d = Direction::begin(); d != Direction::end(); ++d)
   {

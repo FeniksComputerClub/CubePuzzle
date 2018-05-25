@@ -74,3 +74,34 @@ std::array<PositionSet, 6> const wall = {
   create_wall(z_positive),
   create_wall(z_negative)
 };
+
+void PositionSet::swap_units(PositionSet mask, int distance)
+{
+  uint64_t tmp = mask.m_units & m_units;
+  if (distance < 0)
+  {
+    tmp >>= -distance;
+    mask.m_units >>= -distance;
+  }
+  else
+  {
+    tmp <<= distance;
+    mask.m_units <<= distance;
+  }
+  uint64_t diff = tmp ^ (m_units & mask.m_units);
+  m_units ^= diff;
+  if (distance < 0)
+    diff >>= -distance;
+  else
+    diff >>= distance;
+  m_units ^= diff;
+}
+
+void PositionSet::mirror_in(Direction direction)
+{
+  PositionSet mask = wall[(~direction).get_index()];
+  int distance = direction.step();
+  swap_units(mask, distance);
+  mask.shift_towards(direction);
+  swap_units(mask, 3 * distance);
+}
