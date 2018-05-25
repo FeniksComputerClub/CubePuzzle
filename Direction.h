@@ -1,21 +1,30 @@
 #pragma once 
 
 #include <iosfwd>
-#include "PositionSet.h"
+
+enum direction_nt
+{
+  x_positive_int,
+  x_negative_int,
+  y_positive_int,
+  y_negative_int,
+  z_positive_int,
+  z_negative_int
+};
 
 struct DirectionPOD
 {
   int direction;
 };
 
-static constexpr DirectionPOD direction_begin{0};
-static constexpr DirectionPOD x_positive{0};
-static constexpr DirectionPOD x_negative{1};
-static constexpr DirectionPOD y_positive{2};
-static constexpr DirectionPOD y_negative{3};
-static constexpr DirectionPOD z_positive{4};
-static constexpr DirectionPOD z_negative{5};
-static constexpr DirectionPOD direction_end{6};
+static constexpr DirectionPOD direction_begin{x_positive_int};
+static constexpr DirectionPOD x_positive{x_positive_int};
+static constexpr DirectionPOD x_negative{x_negative_int};
+static constexpr DirectionPOD y_positive{y_positive_int};
+static constexpr DirectionPOD y_negative{y_negative_int};
+static constexpr DirectionPOD z_positive{z_positive_int};
+static constexpr DirectionPOD z_negative{z_negative_int};
+static constexpr DirectionPOD direction_end{z_negative_int + 1};
 
 class Direction : protected DirectionPOD
 {
@@ -29,9 +38,9 @@ class Direction : protected DirectionPOD
 
     void operator++() { ++direction; }
 
+    int get_index() const { return direction; }
+
     friend std::ostream& operator<<(std::ostream& os, Direction const& direction);
 };
-
-extern PositionSet const wall[6];
 
 //direction nd = (direction)((d + 1) % 6);

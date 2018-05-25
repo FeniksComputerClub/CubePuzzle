@@ -4,8 +4,14 @@
 
 int main()
 {
+  Piece piece = Pieces::instance().get(4);
+  std::cout << piece << std::endl;
+
+#if 0
+  //prints out the walls
   for (Direction d = Direction::begin(); d != Direction::end(); ++d)
   {
-    std::cout << d << std::endl;
+    std::cout << d << ": " << wall[d.get_index()] << std::endl;
   }
+#endif
 }

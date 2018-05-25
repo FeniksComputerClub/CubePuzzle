@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include "PositionSet.h"
 
 using piece_type = uint64_t;
@@ -19,14 +20,27 @@ piece_type constexpr B4 = 2 + 32 + 64 + (1 + 2 << 16);
 
 class Piece : public PositionSet
 {
- private:
-  static uint64_t const s_pieces[13];
-
  public:
   Piece(piece_type piece) : PositionSet(piece) { }
-  Piece(int nr) : PositionSet(s_pieces[nr]) { }
+  Piece(int nr);
 
   char const* name() const override { return "Piece"; }
 
   friend std::ostream& operator<<(std::ostream& os, Piece const& piece);
+};
+
+class Pieces
+{
+ private:
+  using s_pieces_type = std::array<Piece, 13>;
+  static s_pieces_type const s_pieces;
+  static Pieces* s_pieces_instance;
+
+ public:
+  ~Pieces() { delete s_pieces_instance; }
+
+  s_pieces_type::const_iterator begin() const { return s_pieces.begin(); }
+  s_pieces_type::const_iterator end() const { return s_pieces.end(); }
+  Piece get(int nr) const { return s_pieces[nr]; }
+  static Pieces& instance();
 };

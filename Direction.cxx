@@ -31,4 +31,3 @@ std::ostream& operator<<(std::ostream& os, Direction const& direction)
 }
 
 PositionSet const wall[6];
-
