@@ -29,5 +29,3 @@ std::ostream& operator<<(std::ostream& os, Direction const& direction)
   }
   return os;
 }
-
-PositionSet const wall[6];
