@@ -1,6 +1,6 @@
 #include "Piece.h"
 
-class PiecePosition : PositionSet
+class PiecePosition : public PositionSet
 {
  public:
   PiecePosition(PositionSet const& position_set) : PositionSet(position_set) { }
