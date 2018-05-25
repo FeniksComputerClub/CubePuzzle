@@ -78,6 +78,7 @@ std::array<PositionSet, 6> const wall = {
 void PositionSet::swap_units(PositionSet mask, int distance)
 {
   uint64_t tmp = mask.m_units & m_units;
+  std::cout << "tmp = " << PositionSet(tmp) << std::endl;
   if (distance < 0)
   {
     tmp >>= -distance;
@@ -88,20 +89,26 @@ void PositionSet::swap_units(PositionSet mask, int distance)
     tmp <<= distance;
     mask.m_units <<= distance;
   }
+  std::cout << "tmp shifted = " << PositionSet(tmp) << std::endl;
+  std::cout << "mask shifted = " << mask << std::endl;
   uint64_t diff = tmp ^ (m_units & mask.m_units);
+  std::cout << "diff = " << PositionSet(diff) << std::endl;
   m_units ^= diff;
   if (distance < 0)
-    diff >>= -distance;
+    diff <<= -distance;
   else
     diff >>= distance;
+  std::cout << "diff shifted back = " << PositionSet(diff) << std::endl;
   m_units ^= diff;
 }
 
 void PositionSet::mirror_in(Direction direction)
 {
   PositionSet mask = wall[(~direction).get_index()];
-  int distance = direction.step();
+  std::cout << "mask = " << mask << std::endl;
+  int distance = 3 * direction.step();
+  std::cout << "distance = " << distance << std::endl;
   swap_units(mask, distance);
   mask.shift_towards(direction);
-  swap_units(mask, 3 * distance);
+  swap_units(mask, direction.step());
 }
