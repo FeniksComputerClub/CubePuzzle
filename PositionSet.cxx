@@ -78,7 +78,6 @@ std::array<PositionSet, 6> const wall = {
 void PositionSet::swap_units(PositionSet mask, int distance)
 {
   uint64_t tmp = mask.m_units & m_units;
-  std::cout << "tmp = " << PositionSet(tmp) << std::endl;
   if (distance < 0)
   {
     tmp >>= -distance;
@@ -89,26 +88,53 @@ void PositionSet::swap_units(PositionSet mask, int distance)
     tmp <<= distance;
     mask.m_units <<= distance;
   }
-  std::cout << "tmp shifted = " << PositionSet(tmp) << std::endl;
-  std::cout << "mask shifted = " << mask << std::endl;
   uint64_t diff = tmp ^ (m_units & mask.m_units);
-  std::cout << "diff = " << PositionSet(diff) << std::endl;
   m_units ^= diff;
   if (distance < 0)
     diff <<= -distance;
   else
     diff >>= distance;
-  std::cout << "diff shifted back = " << PositionSet(diff) << std::endl;
   m_units ^= diff;
 }
 
-void PositionSet::mirror_in(Direction direction)
+void PositionSet::invert_axis(Direction direction)
 {
   PositionSet mask = wall[(~direction).get_index()];
-  std::cout << "mask = " << mask << std::endl;
   int distance = 3 * direction.step();
-  std::cout << "distance = " << distance << std::endl;
   swap_units(mask, distance);
   mask.shift_towards(direction);
   swap_units(mask, direction.step());
+}
+
+void PositionSet::swap_axes(Direction direction1, Direction direction2)
+{
+  direction1 = ~direction1;
+  int const offset = direction1.step() + direction2.step();
+  PositionSet mask = wall[(~direction1).get_index()] & wall[(~direction2).get_index()];
+  for (int distance = 3; distance > 0; --distance)
+  {
+    swap_units(mask, distance * offset);
+    PositionSet tmp = mask;
+    mask.shift_towards(direction1);
+    tmp.shift_towards(direction2);
+    mask |= tmp;
+  }
+}
+
+bool PositionSet::shift(Direction direction)
+{
+  if ((*this & wall[direction.get_index()]))
+    return false;
+  shift_towards(direction);
+  return true;
+}
+
+void PositionSet::rotate_around(Direction direction)
+{
+  direction = direction.next();
+  swap_axes(direction, direction.next());
+  invert_axis(direction);
+  while (shift(x_negative));
+  while (shift(y_negative));
+  while (shift(z_negative));
 }

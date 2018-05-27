@@ -1,4 +1,4 @@
-#pragma once 
+#pragma once
 
 #include <iosfwd>
 
@@ -41,7 +41,8 @@ class Direction : protected DirectionPOD
   int get_index() const { return direction; }
   int step() const { return (1 << ((direction >> 1) << 1)) * (1 - 2 * (direction % 2)); }
 
-  Direction operator~() const { return DirectionPOD{ direction + 1 - 2 * (direction % 2) }; } 
+  Direction operator~() const { return DirectionPOD{ direction + 1 - 2 * (direction % 2) }; }
+  Direction next() const { return DirectionPOD{ (direction + ((direction & 1) ? 4 : 2)) % 6 }; }
 
   friend std::ostream& operator<<(std::ostream& os, Direction const& direction);
 };
