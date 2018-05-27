@@ -15,9 +15,18 @@ std::array<char const*, 24> rot_str = {
 
 int main()
 {
+  // Generate all possible unique positions for each piece.
   std::array<std::vector<PositionSet>, 13> all_positions;
+
+  // The cross (R1) has only two unique positions, since all other positions are equivalent under rotation of the cube.
+  Piece piece0 = Pieces::instance().get(0);
+  all_positions[0].push_back(piece0);
+  piece0.shift(z_positive);
+  all_positions[0].push_back(piece0);
+
+  // Do all other pieces.
   std::array<std::set<PositionSet>, 13> all_rotations;
-  for (int piece_n = 0; piece_n < 13; ++ piece_n)
+  for (int piece_n = 1; piece_n < 13; ++ piece_n)
   {
     for (int rot = 0; rot < 24; ++rot)
     {
@@ -46,7 +55,12 @@ int main()
       while (piece_x.shift(x_positive));
     }
   }
-  int nr_pieces = 0;
+
+  std::cout << "The two positions of piece #0 that are considered are:\n";
+  for (auto ps : all_positions[0])
+    std::cout << ps;
+
+  // box[n] is the cube after putting in piece #n.
   std::array<PositionSet, 13> box;
   for (int p0n = 0; p0n < 2; ++p0n)
   {
