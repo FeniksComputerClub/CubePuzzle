@@ -6,8 +6,9 @@
 #include <set>
 #include <vector>
 
+// This array was generated with rotations.cxx.
 std::array<char const*, 24> rot_str = {
- "", "X", "Y", "XX", "XY", "YX", "YY", "XXX", "XXY", "XYX", "XYY", "YXX",
+ "I", "X", "Y", "XX", "XY", "YX", "YY", "XXX", "XXY", "XYX", "XYY", "YXX",
  "YYX", "YYY", "XXXY", "XXYX", "XXYY", "XYXX", "XYYY", "YXXX", "YYYX",
  "XXXYX", "XYXXX", "XYYYX"
 };
@@ -21,8 +22,9 @@ int main()
     for (int rot = 0; rot < 24; ++rot)
     {
       Piece piece = Pieces::instance().get(piece_n);
-      for (char const* p = rot_str[rot]; *p; ++p)
-        piece.rotate_around(*p == 'X' ? x_positive : y_positive);
+      if (rot > 0)
+        for (char const* p = rot_str[rot]; *p; ++p)
+          piece.rotate_around(*p == 'X' ? x_positive : y_positive);
       all_rotations[piece_n].insert(piece);
     }
     for (PositionSet piece_x : all_rotations[piece_n])

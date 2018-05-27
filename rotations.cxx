@@ -1,5 +1,5 @@
 #include "matrix.h"
-#include "utils/MultiLoop.h"
+#include "MultiLoop.h"
 #include <iostream>
 #include <array>
 #include <string>
@@ -82,12 +82,14 @@ int main()
   std::vector<std::set<std::string, VersionsCompare>> vec_versions;
   for (auto e : versions)
   {
-    std::cout << e.first << "; det = " << e.first.determinant() << std::endl;
+    //std::cout << e.first << "; det = " << e.first.determinant() << std::endl;
     vec_versions.push_back(e.second);
   }
   std::sort(vec_versions.begin(), vec_versions.end(), VersionsCompare());
+  char const* sep = "\"";
   for (auto e : vec_versions)
   {
+#if 0
     std::cout << "    " << ++c;
     char const* sep = c < 10 ? ".  " : ". ";
     for (auto s : e)
@@ -96,5 +98,10 @@ int main()
       sep = " = ";
     }
     std::cout << std::endl;
+#else
+    std::cout << sep << *e.begin() << '"';
+    sep = ", \"";
+#endif
   }
+  std::cout << std::endl;
 }
