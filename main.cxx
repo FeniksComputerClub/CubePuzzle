@@ -1,28 +1,22 @@
 #include "Piece.h"
 #include "Direction.h"
 #include "MultiLoop.h"
+#include "RotPos.h"
 #include <iostream>
 #include <array>
 #include <set>
 #include <vector>
 
-// This array was generated with rotations.cxx.
-std::array<char const*, 24> rot_str = {
- "I", "X", "Y", "XX", "XY", "YX", "YY", "XXX", "XXY", "XYX", "XYY", "YXX",
- "YYX", "YYY", "XXXY", "XXYX", "XXYY", "XYXX", "XYYY", "YXXX", "YYYX",
- "XXXYX", "XYXXX", "XYYYX"
-};
-
 int main()
 {
   // Generate all possible unique positions for each piece.
-  std::array<std::vector<PositionSet>, 13> all_positions;
+  std::array<std::vector<Combinations>, 13> all_positions;
 
   // The cross (R1) has only two unique positions, since all other positions are equivalent under rotation of the cube.
   Piece piece0 = Pieces::instance().get(0);
-  all_positions[0].push_back(piece0);
+  all_positions[0].emplace_back(piece0, 0, RotPos());
   piece0.shift(z_positive);
-  all_positions[0].push_back(piece0);
+  all_positions[0].emplace_back(piece0, 0, RotPos());
 
   // Do all other pieces.
   std::array<std::set<PositionSet>, 13> all_rotations;

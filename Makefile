@@ -1,5 +1,5 @@
-HEADERS = Direction.h Piece.h PiecePosition.h PositionSet.h MultiLoop.h matrix.h
-SOURCES = Direction.cxx PositionSet.cxx Piece.cxx main.cxx
+HEADERS = Direction.h Piece.h PiecePosition.h PositionSet.h MultiLoop.h matrix.h ComboPositions.h RotPos.h Combinations.h
+SOURCES = Direction.cxx PositionSet.cxx Piece.cxx main.cxx ComboPositions.cxx RotPos.cxx Combinations.cxx
 
 all: cube rotations
 
